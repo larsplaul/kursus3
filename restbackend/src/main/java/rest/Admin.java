@@ -38,10 +38,12 @@ public class Admin {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   @Path("check/{userName}")
-  public Response doesExist(@PathParam("userName") String userName){
+  public Response doesExist(@PathParam("userName") String userName) throws UserExistException{
     boolean res = facade.exist(userName);
-    int code = res ? 409 : 204;
-    return Response.status(code).build();
+    if(res ){
+      throw new UserExistException("This username is taken");
+    }
+    return Response.status(204).build();
   }
   
   @RolesAllowed("Admin")

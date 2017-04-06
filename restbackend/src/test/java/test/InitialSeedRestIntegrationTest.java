@@ -26,7 +26,7 @@ public class InitialSeedRestIntegrationTest {
 
   //Utility method to login and set the securityToken
   private String login(String role, String password) {
-    String json = String.format("{username: \"%s\", password: \"%s\"}",role,password);
+    String json = String.format("{username: \"%s\", password: \"%s\"}", role, password);
     System.out.println(json);
     String token = given()
             .contentType("application/json")
@@ -37,8 +37,8 @@ public class InitialSeedRestIntegrationTest {
     System.out.println("Token: " + token);
     return token;
   }
- 
-  private void logOut(){
+
+  private void logOut() {
     securityToken = null;
   }
 
@@ -70,22 +70,21 @@ public class InitialSeedRestIntegrationTest {
 
   @Test
   public void tesRestForAdmin() {
-    securityToken = login("admin","test");
+    securityToken = login("admin", "test");
     given()
             .contentType("application/json")
             .header("Authorization", "Bearer " + securityToken)
-   .when()
-            .get("/api/demoadmin")
-   .then().statusCode(200)
-            .body("message", equalTo("Hello Admin from server (call accesible by only authenticated ADMINS)"))
-            .body("serverTime",notNullValue());
+            .when()
+            .get("/api/users").then()
+            .statusCode(200)
+            .body("users.size()",is(3));
+
     logOut();
-    
   }
 
   @Test
   public void testRestForUser() {
-    securityToken = login("user","test");
+    securityToken = login("user", "test");
     given()
             .contentType("application/json")
             .header("Authorization", "Bearer " + securityToken)
@@ -93,9 +92,9 @@ public class InitialSeedRestIntegrationTest {
             .get("/api/demouser").then()
             .statusCode(200)
             .body("message", equalTo("Hello User from Server (Accesible by only authenticated USERS)"));
-      logOut();
+    logOut();
   }
-  
+
   @Test
   public void userNotAuthenticated() {
     logOut();
@@ -106,14 +105,14 @@ public class InitialSeedRestIntegrationTest {
             .statusCode(401)
             .body("error.message", equalTo("No authorization header provided"));
   }
-  
+
   @Test
   public void adminNotAuthenticated() {
     logOut();
     given()
             .contentType("application/json")
             .when()
-            .get("/api/demoadmin").then()
+            .get("/api/users").then()
             .statusCode(401)
             .body("error.message", equalTo("No authorization header provided"));
 

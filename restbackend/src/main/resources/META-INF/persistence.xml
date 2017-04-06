@@ -15,6 +15,8 @@
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
+  
+  
   <persistence-unit name="pu_test" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>entity.Role</class>
@@ -28,12 +30,19 @@
       <property name="eclipselink.canonicalmodel.subpackage" value="test"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
-    <!--    <properties>
+  </persistence-unit>
+  
+  <persistence-unit name="pu_test_embedded" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>entity.Role</class>
+    <class>entity.User</class>
+    <class>entity.Book</class>
+     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:myDB;create=true"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-      <property name="eclipselink.logging.level" value="WARNING"/>
-      <property name="eclipselink.canonicalmodel.subpackage" value="test"/>
+<!--      <property name="eclipselink.logging.level" value="WARNING"/>-->
+      <property name="eclipselink.canonicalmodel.subpackage" value="test_embedded"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
-    </properties>-->
+    </properties>
   </persistence-unit>
 </persistence>
